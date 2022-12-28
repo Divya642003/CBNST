@@ -2,8 +2,9 @@
 
 double f(double x)
 {
-    return x*x*x-2*x-5;
+    return 2*x*x*x-2*x-5;
 }
+
 double turncate(double x)
 {
     int y= (int)(x*1000);
@@ -16,9 +17,8 @@ double turncate(double x)
 int isEqual(double arr[3])
 {
     
-    if(turncate(arr[0])==turncate(arr[1])||turncate(arr[1])==turncate(arr[2])||turncate(arr[0])==turncate(arr[2])){return 1;}
-    else
-    {return 0;}
+    if(turncate(arr[0])==turncate(arr[1]) && turncate(arr[1])==turncate(arr[2]) && turncate(arr[0])==turncate(arr[2])){return 1;}
+    else{return 0;}
 }
 
  
@@ -27,54 +27,51 @@ int main()
     while(1)
     {
         double arr[3];
+        double interval[2];
         printf("Enter value of x0 and x1:\n");
 
-        scanf("%lf%lf",&arr[0],&arr[1]);
+        scanf("%lf%lf",&interval[0],&interval[1]);
         
-        if(f(arr[0])*f(arr[1])>=0)
+        if(f(interval[0])*f(interval[1])>=0)
         {
             printf("Wrong interval, Enter another values:");
             continue;
         }
 
+        arr[0]=interval[0];
+        arr[1]=interval[1];
 
         int itr=0;
+        int temp=1;
        
 
         while(!isEqual(arr))
         {
-            //printf("f%lf=%lf %lf=%lf %lf\n",arr[0],f(arr[0]),arr[1],f(arr[1]),arr[2]);
-            arr[2]=(arr[0]*f(arr[1])-arr[1]*f(arr[0]))/(f(arr[1])-f(arr[0]));
+            //printf("arr[0]:f(%.3lf)=%.3lf arr[1]:f(%.3lf)=%.3lf arr[2]:%.3lf itr=%d\n",arr[0],f(arr[0]),arr[1],f(arr[1]),arr[2],itr);
+            temp=(temp+1)%3;
+            arr[temp]=(f(interval[1])*interval[0]-f(interval[0])*interval[1]) /(f(interval[1])-f(interval[0]));
 
-            if(f(arr[2])>0)
+            if(f(arr[temp])>0)
             {
-                if(f(arr[0])>0)
-            {
-                double temp=arr[0];
-                arr[0]=arr[2];
-                arr[2]=temp;
-            }
-            else{
-                double temp=arr[1];
-                arr[1]=arr[2];
-                arr[2]=temp;
-            }
+                if(f(interval[0])>0)
+                {
+                    interval[0]=arr[temp];
+                }
+                else{
+                    interval[1]=arr[temp];
+                }
             }
             else
             {
-                if(f(arr[0])<0)
-            {
-                double temp=arr[0];
-                arr[0]=arr[2];
-                arr[2]=temp;
-            }
-             else{
-                double temp=arr[1];
-                arr[1]=arr[2];
-                arr[2]=temp;
-            }
-            }
-          
+                if(f(interval[0])<0)
+                {
+                    interval[0]=arr[temp];
+                }
+                else{
+                    interval[1]=arr[temp];
+                }
+             }
+
             itr++;
         }
 
