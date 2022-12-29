@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include<math.h>
 
+double f(double x)
+{
+    return 3*x-cos(x)-1;
+}
+double df(double x)
+{
+    return 3+sin(x);
+}
 double next(double x)
 {
-    return cbrt(2*x*x+4);
+    return x-((f(x))/df(x));
 }
 double turncate(double x)
 {
@@ -11,32 +19,55 @@ double turncate(double x)
 			double z= (double)y/1000;
 			return z;
 }
-int isEqual(double arr[3])
+int isEqual(double v1,double v2,double v3)
 { 
-    if(turncate(arr[0])==turncate(arr[1])&&turncate(arr[1])==turncate(arr[2])&&turncate(arr[0])==turncate(arr[2])){return 1;}
+    if(turncate(v1)==turncate(v2)&&turncate(v2)==turncate(v3)&&turncate(v3)==turncate(v1)){return 1;}
     else
     {return 0;}
 }
 int main()
 {
-    double arr[3];
+   
     printf("Enter x0:");
     double x;
     scanf("%lf",&x);
-    arr[0]=x;
-     printf("\nx0=%lf",truncate(arr[0]));
-    arr[1]=next(arr[0]);
-     printf("\nx1=%lf",truncate(arr[1]));
-    arr[2]=next(arr[1]);
-    printf("\nx2=%lf",truncate(arr[2]));
-    int itr =2;
-    while(!isEqual(arr))
-    {
+    double v1=x;
     
-    itr++;
-        arr[itr%3]=next(arr[(itr+2)%3]);    //just using mod to calculate position. if seem complex use v1 v2 and v3 like newton rapson
-        printf("\nx%d=%lf",itr,truncate(arr[itr%3]));
-             
+    double v2 =next(v1);
+    
+     double v3;
+   
+    int itr =1;
+    while(1)
+    {
+         v3 =next(v2);
+          printf("%lf\n%lf\n%lf\n",turncate(v1),turncate(v2),turncate(v3));
+         itr++;
+
+        if(isEqual(v1,v2,v3))
+        {
+            break;
+        }
+
+        v1=next(v3);
+        itr++;
+        if(isEqual(v1,v2,v3))
+        {
+           printf("%lf\n",turncate(v1));
+            break;
+        }
+
+        v2=next(v1);
+        itr++;
+        if(isEqual(v1,v2,v3))
+        {
+            printf("%lf\n",turncate(v2));
+            break;
+        }
+
+
     }
-    printf("\nNumber of iterations:%d\nResult=%lf",itr,turncate(arr[0]));
+
+    printf("\nResult is:%lf\nNumber of iterations:%d",turncate(v3),itr);
+
 }

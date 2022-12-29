@@ -31,7 +31,7 @@ int main()
  }
  for(k=n-1;k>=0;k--)
  {
- unknowns[k]=eq[k][n];
+       unknowns[k]=eq[k][n];
  for(j=0;j<n;j++)
  {
  if(k!=j)

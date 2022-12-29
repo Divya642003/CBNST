@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include<math.h>
-double new(double x)
+double next(double x)
 {
     return cbrt(2*x*x+4);
 }
@@ -18,30 +18,24 @@ int isEqual(double arr[3])
 }
 int main()
 {
-    double temp =0;
-    while(1)
-    {
-        double arr[3];
-        printf("Enter value of x0 :\n");
-        scanf("%lf",&arr[0]);
-        printf("\nx0 = %lf",turncate(arr[0]));
-        arr[1]=new(arr[0]);
-        printf("\nx1 = %lf",turncate(arr[0]));
-        arr[2]=new(arr[1]);
-         printf("\nx2 = %lf",turncate(arr[0]));
-        int itr=2;
+    printf("Enter x0:");
+    double x;
+    scanf("%lf",&x);
 
-        while(!isEqual(arr))
-        {
-             itr++; 
-          // printf("f%lf=%lf \t f1 %lf=%lf \t %lf=%lf %lf\n",arr[0],f(arr[0]),arr[0],y(arr[0]),arr[1],f(arr[1]),arr[2]);
-         arr[itr%3]=new(arr[(itr+2)%3]);
-         printf("\nx%d=%lf",itr,turncate(arr[itr%3]));
-               
-        }
-       
-        printf("\nNumber of iterations:%d\nResult=%lf",itr,turncate(arr[0]));
-        break;
-        
+    double arr[3];        //can also use same way as newton rapson
+    arr[0]=x;
+    printf("\nx0=%lf",truncate(arr[0]));
+    arr[1]=next(arr[0]);
+     printf("\nx1=%lf",truncate(arr[1]));
+    arr[2]=next(arr[1]);
+     printf("\nx2=%lf",truncate(arr[2]));
+
+    int itr=2;
+    while(!isEqual(arr))
+    {
+        itr++;
+        arr[itr%3]=next(arr[(itr+2)%3]);    //just using mod to calculate position. if seem complex use v1 v2 and v3 like newton rapson
+        printf("\nx%d=%lf",itr,truncate(arr[itr%3]));
     }
+      printf("\n\nResult=%lf\nNumber of iterations=%d",truncate(arr[0]),itr);
 }
